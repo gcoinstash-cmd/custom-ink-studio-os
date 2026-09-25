@@ -107,7 +107,7 @@ export default function App() {
               <PenTool className="w-4 h-4 text-white" />
             </div>
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-rose-400 font-bold block">BESPOKE ATELIER // LA & NYC</span>
+              <span className="text-xs font-semibold tracking-wider font-mono uppercase tracking-widest text-rose-400 font-bold block">BESPOKE ATELIER // LA & NYC</span>
               <h1 className="text-base font-serif font-extrabold text-white leading-none tracking-wide">CUSTOM INK STUDIO OS</h1>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function App() {
                   <div>
                     <h4 className="text-lg font-serif font-bold text-white leading-tight">{artist.name}</h4>
                     <span className="text-xs font-mono text-rose-400 block">{artist.handle}</span>
-                    <span className="text-[11px] font-mono text-zinc-500">{artist.bookedPieces} Works Archived</span>
+                    <span className="text-xs font-semibold font-mono text-zinc-300">{artist.bookedPieces} Works Archived</span>
                   </div>
                 </div>
 
@@ -167,11 +167,11 @@ export default function App() {
 
               <div className="pt-4 border-t border-zinc-800/80 text-xs font-mono">
                 <div className="flex justify-between mb-1">
-                  <span className="text-zinc-500">Rate:</span>
+                  <span className="text-zinc-300">Rate:</span>
                   <span className="text-white font-bold">{artist.hourlyRate}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">Next Calendar:</span>
+                  <span className="text-zinc-300">Next Calendar:</span>
                   <span className="text-rose-400 font-bold">{artist.nextAvailable}</span>
                 </div>
               </div>
@@ -214,13 +214,13 @@ export default function App() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-transparent"></div>
                   
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-[10px] font-mono text-zinc-300 border border-zinc-700">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-xs font-semibold tracking-wider font-mono text-zinc-300 border border-zinc-700">
                     {piece.placement}
                   </div>
 
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold border border-zinc-700">
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-xs font-semibold tracking-wider font-mono font-bold border border-zinc-700">
                     {isClaimed ? (
-                      <span className="text-zinc-500">RESERVED</span>
+                      <span className="text-zinc-300">RESERVED</span>
                     ) : (
                       <span className="text-rose-400">AVAILABLE</span>
                     )}
@@ -228,7 +228,7 @@ export default function App() {
                 </div>
 
                 <div className="p-6">
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{piece.id}</span>
+                  <span className="text-xs font-semibold tracking-wider font-mono text-zinc-300 uppercase tracking-widest">{piece.id}</span>
                   <h4 className="text-lg font-serif font-bold text-white mb-1">{piece.title}</h4>
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-800">
                     <span className="text-base font-serif font-black text-rose-400">${piece.price} USD</span>
@@ -258,7 +258,7 @@ export default function App() {
                 <h3 className="text-2xl font-serif font-bold text-white">Claim "{selectedPiece.title}"</h3>
               </div>
               <div className="text-right">
-                <span className="text-xs font-mono text-zinc-500 block">TOTAL PIECE COST:</span>
+                <span className="text-xs font-mono text-zinc-300 block">TOTAL PIECE COST:</span>
                 <span className="text-2xl font-serif font-extrabold text-rose-400">${selectedPiece.price} USD</span>
               </div>
             </div>
@@ -266,7 +266,7 @@ export default function App() {
             <form onSubmit={handleClaim} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Your Full Name</label>
+                  <label className="block text-sm font-semibold tracking-wider font-mono text-zinc-400 uppercase mb-1">Your Full Name</label>
                   <input
                     type="text"
                     required
@@ -277,7 +277,7 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Mobile Contact (Confirmation SMS)</label>
+                  <label className="block text-sm font-semibold tracking-wider font-mono text-zinc-400 uppercase mb-1">Mobile Contact (Confirmation SMS)</label>
                   <input
                     type="tel"
                     required
@@ -310,7 +310,7 @@ export default function App() {
                 type="submit"
                 disabled={!waiverSigned}
                 className={`w-full py-4 rounded-xl font-serif font-black text-sm uppercase tracking-wider transition shadow-lg shadow-rose-500/25 ${
-                  waiverSigned ? 'bg-rose-500 hover:bg-rose-400 text-zinc-950 cursor-pointer' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                  waiverSigned ? 'bg-rose-500 hover:bg-rose-400 text-zinc-950 cursor-pointer' : 'bg-zinc-800 text-zinc-300 cursor-not-allowed'
                 }`}
               >
                 {depositPaid ? '✓ $150 DEPOSIT SECURED // FLASH CLAIMED' : 'PAY $150 DEPOSIT & LOCK IN DESIGN'}
@@ -321,7 +321,7 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-zinc-800 bg-[#0A0A0B] text-zinc-500 text-xs font-mono">
+      <footer className="py-8 px-6 border-t border-zinc-800 bg-[#0A0A0B] text-zinc-300 text-xs font-mono">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <span className="text-zinc-300 font-serif font-bold">CUSTOM INK STUDIO OS</span> • Luxury Tattoo Atelier v1.0.0
