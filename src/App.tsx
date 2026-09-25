@@ -1,64 +1,72 @@
 import React, { useState } from 'react';
 import { 
-  Shield, Award, ArrowRight, Calendar, DollarSign, Lock, 
-  ChevronRight, CheckCircle2, Sparkles, Layers, Terminal, Server,
-  AlertCircle, Check, Phone, Camera, PenTool, Flame, Truck, Star
+  PenTool, Shield, Award, Calendar, DollarSign, Lock, ArrowRight, Check, 
+  Sparkles, Layers, Image as ImageIcon, Heart, User, CheckCircle2, FileSignature
 } from 'lucide-react';
 import { AdminPortalModal } from './AdminPortalModal.tsx';
 
-interface ShowcaseItem {
+interface Artist {
+  id: string;
+  name: string;
+  handle: string;
+  specialty: string;
+  hourlyRate: string;
+  nextAvailable: string;
+  avatar: string;
+  bookedPieces: number;
+}
+
+const ARTISTS: Artist[] = [
+  {
+    id: 'kai-vance',
+    name: 'Kai Vance',
+    handle: '@kaivance.ink',
+    specialty: 'Dark Surrealism & Single-Needle Micro-Realism',
+    hourlyRate: '$300 / hr ($1,800 Day Session)',
+    nextAvailable: 'Late October 2026',
+    avatar: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28',
+    bookedPieces: 412
+  },
+  {
+    id: 'elena-mori',
+    name: 'Elena Mori',
+    handle: '@mori.irezumi',
+    specialty: 'Traditional Japanese Horimono & Large Scale Sleeves',
+    hourlyRate: '$280 / hr ($3,500 Sleeve Retainer)',
+    nextAvailable: 'November 2026',
+    avatar: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6',
+    bookedPieces: 328
+  },
+  {
+    id: 'soren-black',
+    name: 'Soren Black',
+    handle: '@sorenblack.blackwork',
+    specialty: 'Heavy Blackwork, Sacred Geometry & Freehand Flow',
+    hourlyRate: '$250 / hr ($1,500 Day Session)',
+    nextAvailable: 'Mid-October 2026',
+    avatar: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d',
+    bookedPieces: 519
+  }
+];
+
+interface FlashPiece {
   id: string;
   title: string;
-  subtitle: string;
-  rate: string;
-  status: string;
-  features: string[];
+  artistId: string;
+  price: number;
+  heightClass: string;
+  status: 'AVAILABLE' | 'RESERVED_CLAIMED';
+  placement: string;
   img: string;
 }
 
-const ITEMS: ShowcaseItem[] = [
-  {
-    "id": "TATTOO-REALISM",
-    "title": "Full-Day Black & Grey Micro-Realism Session",
-    "subtitle": "Master Artist Kai Vance // Bespoke Design Consultation + 7hr Inking",
-    "rate": "$1,800 Full Day Block",
-    "status": "OCTOBER CALENDAR OPEN",
-    "features": [
-      "Bishop Rotary Precision Needle Setup",
-      "Single-Use Hospital Grade Medical Disposable Grip",
-      "Custom Photoshop Digital Render Consultation",
-      "SecondSkin Derm Shield Aftercare Kit Included"
-    ],
-    "img": "https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28"
-  },
-  {
-    "id": "TATTOO-SLEEVE",
-    "title": "Japanese Irezumi Full Sleeve Project",
-    "subtitle": "Multi-Session Large Scale Body Suit // Traditional Horimono Flow",
-    "rate": "$3,500 Initial Project Retainer",
-    "status": "APPLICATION SCREENING",
-    "features": [
-      "Anatomical Flow Muscle Contouring",
-      "Kuro Sumi Traditional Japanese Pigments",
-      "Private Atelier Studio Suite (Zero Foot Traffic)",
-      "Complimentary Touch-Up Within 12 Months"
-    ],
-    "img": "https://images.unsplash.com/photo-1562962230-16e4623d36e6"
-  },
-  {
-    "id": "FLASH-VAULT",
-    "title": "Exclusive Vault Flash Drop Series",
-    "subtitle": "One-of-One Signature Illustrations // Inked Once Only",
-    "rate": "$650 Flat Session Rate",
-    "status": "4 OF 6 PIECES CLAIMED",
-    "features": [
-      "Non-Repeatable Intellectual Property",
-      "Instant Digital Deposit Booking Gate",
-      "Pre-Drafted Digital Consent & Health Waiver",
-      "Same-Week Booking Priority Execution"
-    ],
-    "img": "https://images.unsplash.com/photo-1611501275019-9b5cda994e8d"
-  }
+const FLASH_PIECES: FlashPiece[] = [
+  { id: 'FLASH-01', title: 'The Obsidian Seraph', artistId: 'kai-vance', price: 650, heightClass: 'h-80', status: 'AVAILABLE', placement: 'Forearm / Calve', img: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28' },
+  { id: 'FLASH-02', title: 'Ryu Dragon Coil Study', artistId: 'elena-mori', price: 1200, heightClass: 'h-96', status: 'AVAILABLE', placement: 'Full Ribcage / Back', img: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6' },
+  { id: 'FLASH-03', title: 'Geometric Torus Pulse', artistId: 'soren-black', price: 550, heightClass: 'h-72', status: 'AVAILABLE', placement: 'Upper Bicep / Shoulder', img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d' },
+  { id: 'FLASH-04', title: 'Anatomical Heart & Thorns', artistId: 'kai-vance', price: 750, heightClass: 'h-96', status: 'RESERVED_CLAIMED', placement: 'Chest Center Plate', img: 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28' },
+  { id: 'FLASH-05', title: 'Chrysanthemum & Wave', artistId: 'elena-mori', price: 850, heightClass: 'h-80', status: 'AVAILABLE', placement: 'Thigh / Hip Transition', img: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6' },
+  { id: 'FLASH-06', title: 'Sacred Mandala Compass', artistId: 'soren-black', price: 600, heightClass: 'h-72', status: 'AVAILABLE', placement: 'Forearm Inner Plate', img: 'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d' },
 ];
 
 export default function App() {
@@ -69,169 +77,102 @@ export default function App() {
       window.location.hash === '#admin'
     )
   );
-  const [selectedItem, setSelectedItem] = useState(ITEMS[0].id);
-  const [inquiryName, setInquiryName] = useState('');
-  const [inquiryPhone, setInquiryPhone] = useState('');
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [selectedPiece, setSelectedPiece] = useState<FlashPiece | null>(FLASH_PIECES[0]);
+  const [clientName, setClientName] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
+  const [waiverSigned, setWaiverSigned] = useState(false);
+  const [depositPaid, setDepositPaid] = useState(false);
+
+  const handleClaim = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inquiryName || !inquiryPhone) return;
-    setSubmitted(true);
+    if (!clientName || !clientPhone || !waiverSigned) return;
+    setDepositPaid(true);
     setTimeout(() => {
-      setSubmitted(false);
-      setInquiryName('');
-      setInquiryPhone('');
-    }, 4000);
+      setDepositPaid(false);
+      setClientName('');
+      setClientPhone('');
+      setWaiverSigned(false);
+      setSelectedPiece(null);
+    }, 4500);
   };
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-zinc-100 font-sans selection:bg-rose-500/20 selection:text-rose-400">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-[#0A0A0B]/90 backdrop-blur-md border-b border-zinc-800/80 px-6 py-4">
+      {/* Editorial Floating Header */}
+      <header className="sticky top-0 z-40 bg-[#0A0A0B]/90 backdrop-blur-xl border-b border-zinc-800/80 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-white font-extrabold shadow-lg shadow-rose-600/20">
-              <Sparkles className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-red-700 flex items-center justify-center text-white font-serif font-black shadow-lg shadow-rose-600/20">
+              <PenTool className="w-4 h-4 text-white" />
             </div>
             <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-rose-500 font-semibold">High-Ticket Custom Tattoo & Resident Artist Studio OS</span>
-              <h1 className="text-lg font-bold tracking-tight text-white leading-none">CUSTOM INK STUDIO OS</h1>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-rose-400 font-bold block">BESPOKE ATELIER // LA & NYC</span>
+              <h1 className="text-base font-serif font-extrabold text-white leading-none tracking-wide">CUSTOM INK STUDIO OS</h1>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-8 text-xs font-medium uppercase tracking-wider text-zinc-400">
-            <a href="#packages" className="hover:text-rose-400 transition">Services</a>
-            <a href="#specs" className="hover:text-rose-400 transition">Standards</a>
-            <a href="#booking" className="hover:text-rose-400 transition">Reserve Session</a>
+          <div className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-zinc-400">
+            <a href="#artists" className="hover:text-rose-400 transition">Resident Roster</a>
+            <a href="#flash-gallery" className="hover:text-rose-400 transition">Flash Book (1-of-1)</a>
+            <a href="#booking-drawer" className="hover:text-rose-400 transition">Deposit Gate</a>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              className="px-4 py-2 rounded-lg bg-zinc-900 border border-rose-500/40 text-rose-400 hover:bg-rose-500/10 text-xs font-mono uppercase tracking-wider transition flex items-center gap-2"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>[ STUDIO PASS ]</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setIsAdminOpen(true)}
+            className="px-3.5 py-1.5 rounded-xl bg-zinc-900 border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 text-xs font-mono uppercase tracking-wider transition flex items-center gap-1.5"
+          >
+            <Lock className="w-3 h-3" />
+            <span>[ ATELIER PASS ]</span>
+          </button>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative pt-20 pb-24 px-6 overflow-hidden border-b border-zinc-800">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(244,63,94,0.15),rgba(255,255,255,0))]"></div>
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-mono mb-6">
-            <Star className="w-3.5 h-3.5" />
-            <span>PREMIUM STUDIO ENGINE • 9.8 VERIFIED PRODUCTION GRADE</span>
-          </div>
-
-          <h2 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-            CUSTOM <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-500">INK STUDIO OS</span>
-          </h2>
-
-          <p className="mt-6 text-lg sm:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-            Resident Artist Flash Drops, Deposit Booking Gate & Digital Waivers. Precision craft, dedicated client portals, and turnkey Supabase PostgreSQL database schemas.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#booking"
-              className="px-8 py-3.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-zinc-950 font-bold text-sm tracking-wide transition shadow-lg shadow-rose-500/25 flex items-center gap-2"
-            >
-              <span>Book Priority Session</span>
-              <ArrowRight className="w-4 h-4" />
-            </a>
-            <button
-              onClick={() => setIsAdminOpen(true)}
-              className="px-8 py-3.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-rose-500/40 text-zinc-200 text-sm font-semibold transition flex items-center gap-2"
-            >
-              <span>Launch Studio OS</span>
-              <span className="text-rose-400 font-mono text-xs font-bold">[customink2026]</span>
-            </button>
-          </div>
-
-          {/* Metrics Ticker */}
-          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
-            
-              <div key="RESIDENT MASTER ARTISTS" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">RESIDENT MASTER ARTISTS</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-rose-400 mt-1">{"7 ARTISTS"}</p>
-              </div>
-            
-              <div key="DEPOSIT RETENTION GATE" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">DEPOSIT RETENTION GATE</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-rose-400 mt-1">{"$150 NON-REFUNDABLE"}</p>
-              </div>
-            
-              <div key="HEALTH DEPT COMPLIANCE" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">HEALTH DEPT COMPLIANCE</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-rose-400 mt-1">{"100% STERILE AUDITED"}</p>
-              </div>
-            
-              <div key="DIGITAL WAIVERS ARCHIVED" className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-sm">
-                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">DIGITAL WAIVERS ARCHIVED</span>
-                <p className="text-lg sm:text-xl font-bold font-mono text-rose-400 mt-1">{"8,400+ SIGNED"}</p>
-              </div>
-            
-          </div>
-        </div>
+      {/* Hero & Philosophy */}
+      <section className="pt-16 pb-12 px-6 max-w-6xl mx-auto text-center">
+        <span className="text-xs font-mono text-rose-400 uppercase tracking-widest block mb-3">PRIVATE APPOINTMENT ONLY // ZERO FOOT TRAFFIC</span>
+        <h2 className="text-4xl sm:text-6xl font-serif font-black tracking-tight text-white">
+          Permanent Artistry & <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-red-500 font-serif">One-of-One Flash</span>
+        </h2>
+        <p className="mt-4 text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          Master resident artists executing single-needle micro-realism, large scale Japanese Horimono body suits, and sacred blackwork geometry. Every flash piece is inked once and retired forever.
+        </p>
       </section>
 
-      {/* Showcase Grid */}
-      <section id="packages" className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      {/* Resident Artists Showcase */}
+      <section id="artists" className="py-8 px-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6 pb-3 border-b border-zinc-800">
           <div>
-            <span className="text-xs font-mono text-rose-500 uppercase tracking-widest block mb-2">CURATED TIERS & PACKAGES</span>
-            <h3 className="text-3xl font-extrabold text-white">Signature Studio Services</h3>
+            <span className="text-xs font-mono text-rose-400 uppercase tracking-widest block">ATELIER MASTERS</span>
+            <h3 className="text-2xl font-serif font-bold text-white">Resident Artist Roster</h3>
           </div>
-          <span className="text-sm text-zinc-400 mt-2 md:mt-0 font-mono">100% Verified Quality & VIP Gate</span>
+          <span className="text-xs font-mono text-zinc-400">Books Open for Q4</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {ITEMS.map((item) => (
-            <div 
-              key={item.id}
-              className="group rounded-2xl bg-[#121214] border border-zinc-800 hover:border-rose-500/40 transition-all overflow-hidden flex flex-col shadow-xl"
-            >
-              <div className="relative h-56 overflow-hidden bg-zinc-900">
-                <img 
-                  src={item.img} 
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-transparent"></div>
-                <div className="absolute top-4 right-4 px-2.5 py-1 rounded bg-black/70 backdrop-blur-md border border-zinc-700 text-[11px] font-mono font-bold text-rose-400">
-                  {item.status}
-                </div>
-              </div>
-
-              <div className="p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <span className="text-xs font-mono text-rose-400 uppercase tracking-wider block mb-1">{item.id}</span>
-                  <h4 className="text-xl font-bold text-white mb-2 leading-tight">{item.title}</h4>
-                  <p className="text-xs text-zinc-400 mb-4">{item.subtitle}</p>
-
-                  <div className="space-y-2 mb-6">
-                    {item.features.map((feat, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-zinc-300 font-mono">
-                        <Check className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {ARTISTS.map((artist) => (
+            <div key={artist.id} className="p-6 rounded-3xl bg-[#121214] border border-zinc-800 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-4 mb-4">
+                  <img src={artist.avatar} alt={artist.name} className="w-14 h-14 rounded-2xl object-cover border border-zinc-700" />
+                  <div>
+                    <h4 className="text-lg font-serif font-bold text-white leading-tight">{artist.name}</h4>
+                    <span className="text-xs font-mono text-rose-400 block">{artist.handle}</span>
+                    <span className="text-[11px] font-mono text-zinc-500">{artist.bookedPieces} Works Archived</span>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
-                  <span className="text-sm font-bold text-rose-400 font-mono">{item.rate}</span>
-                  <a
-                    href="#booking"
-                    onClick={() => setSelectedItem(item.id)}
-                    className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-rose-500 hover:text-zinc-950 text-zinc-200 text-xs font-semibold transition"
-                  >
-                    Select Option
-                  </a>
+                <p className="text-xs text-zinc-300 font-sans mb-4 leading-relaxed">{artist.specialty}</p>
+              </div>
+
+              <div className="pt-4 border-t border-zinc-800/80 text-xs font-mono">
+                <div className="flex justify-between mb-1">
+                  <span className="text-zinc-500">Rate:</span>
+                  <span className="text-white font-bold">{artist.hourlyRate}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-zinc-500">Next Calendar:</span>
+                  <span className="text-rose-400 font-bold">{artist.nextAvailable}</span>
                 </div>
               </div>
             </div>
@@ -239,71 +180,151 @@ export default function App() {
         </div>
       </section>
 
-      {/* Booking / Intake Form */}
-      <section id="booking" className="py-20 px-6 bg-zinc-950 border-t border-zinc-800">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono text-rose-500 uppercase tracking-widest block mb-2">PRIORITY INTAKE</span>
-            <h3 className="text-3xl font-extrabold text-white">Reserve Session or Submit Consultation</h3>
-            <p className="text-zinc-400 text-sm mt-3">Direct integration into PostgreSQL records with instant deposit triage.</p>
+      {/* Asymmetric Flash Gallery */}
+      <section id="flash-gallery" className="py-12 px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 pb-3 border-b border-zinc-800">
+          <div>
+            <span className="text-xs font-mono text-rose-400 uppercase tracking-widest block">VAULT ARCHIVE</span>
+            <h3 className="text-2xl font-serif font-bold text-white">Available 1-of-1 Flash Pieces</h3>
           </div>
+          <span className="text-xs font-mono text-zinc-400 mt-2 sm:mt-0">Click any artwork to lock and claim with a $150 deposit</span>
+        </div>
 
-          <form onSubmit={handleSubmit} className="p-8 rounded-2xl bg-[#121214] border border-rose-500/20 shadow-2xl space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-mono uppercase text-zinc-400 mb-2">Client / Production Entity</label>
-                <input
-                  type="text"
-                  required
-                  value={inquiryName}
-                  onChange={(e) => setInquiryName(e.target.value)}
-                  placeholder="e.g. Sterling Productions LLC"
-                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-rose-500 text-sm font-sans"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-mono uppercase text-zinc-400 mb-2">Direct Phone / Mobile</label>
-                <input
-                  type="tel"
-                  required
-                  value={inquiryPhone}
-                  onChange={(e) => setInquiryPhone(e.target.value)}
-                  placeholder="+1 (555) 234-5678"
-                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-rose-500 text-sm font-sans"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-mono uppercase text-zinc-400 mb-2">Selected Package</label>
-              <select
-                value={selectedItem}
-                onChange={(e) => setSelectedItem(e.target.value)}
-                className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-zinc-100 focus:outline-none focus:border-rose-500 text-sm font-sans"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FLASH_PIECES.map((piece) => {
+            const isSelected = selectedPiece?.id === piece.id;
+            const isClaimed = piece.status === 'RESERVED_CLAIMED';
+            return (
+              <div
+                key={piece.id}
+                onClick={() => !isClaimed && setSelectedPiece(piece)}
+                className={`group rounded-3xl overflow-hidden border transition cursor-pointer relative flex flex-col justify-between ${
+                  isSelected 
+                    ? 'bg-rose-950/20 border-rose-500 shadow-2xl shadow-rose-950/50' 
+                    : isClaimed 
+                    ? 'bg-zinc-950 border-zinc-900 opacity-60 cursor-not-allowed'
+                    : 'bg-[#121214] border-zinc-800 hover:border-zinc-700'
+                }`}
               >
-                {ITEMS.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.id} - {item.title} ({item.rate})
-                  </option>
-                ))}
-              </select>
-            </div>
+                <div className={`relative ${piece.heightClass} overflow-hidden bg-zinc-950`}>
+                  <img 
+                    src={piece.img} 
+                    alt={piece.title} 
+                    className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-transparent"></div>
+                  
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-[10px] font-mono text-zinc-300 border border-zinc-700">
+                    {piece.placement}
+                  </div>
 
-            <button
-              type="submit"
-              className="w-full py-4 rounded-xl bg-rose-500 hover:bg-rose-400 text-zinc-950 font-extrabold text-sm uppercase tracking-wider transition shadow-lg shadow-rose-500/20"
-            >
-              {submitted ? '✓ RESERVATION CONFIRMED & LOGGED' : 'SUBMIT APPOINTMENT RESERVATION'}
-            </button>
-          </form>
+                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-xl bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold border border-zinc-700">
+                    {isClaimed ? (
+                      <span className="text-zinc-500">RESERVED</span>
+                    ) : (
+                      <span className="text-rose-400">AVAILABLE</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{piece.id}</span>
+                  <h4 className="text-lg font-serif font-bold text-white mb-1">{piece.title}</h4>
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-800">
+                    <span className="text-base font-serif font-black text-rose-400">${piece.price} USD</span>
+                    <button
+                      disabled={isClaimed}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition ${
+                        isClaimed ? 'bg-zinc-900 text-zinc-600' : isSelected ? 'bg-rose-500 text-zinc-950' : 'bg-zinc-900 text-zinc-200 hover:bg-zinc-800'
+                      }`}
+                    >
+                      {isClaimed ? 'CLAIMED' : isSelected ? 'SELECTED' : 'LOCK DESIGN'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
+      {/* Selected Flash Booking & Deposit Drawer */}
+      {selectedPiece && (
+        <section id="booking-drawer" className="py-12 px-6 max-w-4xl mx-auto">
+          <div className="p-8 rounded-3xl bg-[#121214] border border-rose-500/40 shadow-2xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-zinc-800 gap-4 mb-6">
+              <div>
+                <span className="text-xs font-mono text-rose-400 uppercase tracking-widest block">DEPOSIT LOCK GATE</span>
+                <h3 className="text-2xl font-serif font-bold text-white">Claim "{selectedPiece.title}"</h3>
+              </div>
+              <div className="text-right">
+                <span className="text-xs font-mono text-zinc-500 block">TOTAL PIECE COST:</span>
+                <span className="text-2xl font-serif font-extrabold text-rose-400">${selectedPiece.price} USD</span>
+              </div>
+            </div>
+
+            <form onSubmit={handleClaim} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Your Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    placeholder="e.g. Sterling Thorne"
+                    className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Mobile Contact (Confirmation SMS)</label>
+                  <input
+                    type="tel"
+                    required
+                    value={clientPhone}
+                    onChange={(e) => setClientPhone(e.target.value)}
+                    placeholder="+1 (555) 982-1204"
+                    className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500"
+                  />
+                </div>
+              </div>
+
+              {/* Digital Consent Waiver Check */}
+              <div 
+                onClick={() => setWaiverSigned(!waiverSigned)}
+                className={`p-4 rounded-2xl border transition cursor-pointer flex items-center gap-3 ${
+                  waiverSigned ? 'bg-rose-950/20 border-rose-500 text-white' : 'bg-zinc-950 border-zinc-800 text-zinc-400'
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-md flex items-center justify-center border ${
+                  waiverSigned ? 'bg-rose-500 border-rose-500 text-zinc-950' : 'border-zinc-700'
+                }`}>
+                  {waiverSigned && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                </div>
+                <div className="text-xs font-mono">
+                  <span>I agree to the <strong>Digital Consent & Health Department Sterility Waiver</strong> and confirm a <strong>$150 non-refundable deposit</strong> to permanently retire this piece from the vault.</span>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={!waiverSigned}
+                className={`w-full py-4 rounded-xl font-serif font-black text-sm uppercase tracking-wider transition shadow-lg shadow-rose-500/25 ${
+                  waiverSigned ? 'bg-rose-500 hover:bg-rose-400 text-zinc-950 cursor-pointer' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                }`}
+              >
+                {depositPaid ? '✓ $150 DEPOSIT SECURED // FLASH CLAIMED' : 'PAY $150 DEPOSIT & LOCK IN DESIGN'}
+              </button>
+            </form>
+          </div>
+        </section>
+      )}
+
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-zinc-800 bg-[#0A0A0B] text-zinc-500 text-xs font-mono">
+      <footer className="py-8 px-6 border-t border-zinc-800 bg-[#0A0A0B] text-zinc-500 text-xs font-mono">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <span className="text-zinc-300 font-bold">CUSTOM INK STUDIO OS</span> • Commercial Studio OS v1.0.0
+            <span className="text-zinc-300 font-serif font-bold">CUSTOM INK STUDIO OS</span> • Luxury Tattoo Atelier v1.0.0
           </div>
           <div className="flex items-center gap-6">
             <span>Ghost Factory™ Protocol</span>
@@ -312,7 +333,7 @@ export default function App() {
               onClick={() => setIsAdminOpen(true)}
               className="text-rose-400 hover:underline"
             >
-              Admin Portal (customink2026)
+              Atelier Portal (customink2026)
             </button>
           </div>
         </div>
